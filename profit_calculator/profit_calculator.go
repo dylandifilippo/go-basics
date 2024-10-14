@@ -16,12 +16,7 @@ func main() {
 	fmt.Print("Enter tax rate: ")
 	fmt.Scan(&taxRate)
 
-	// earnings before tax
-	ebt := revenue - expenses
-	// earnings after tax
-	eat := ebt * (1 - taxRate/100)
-	// calculate the ratio between earnings after tax and revenue
-	ratio := ebt / eat
+	ebt, eat, ratio := calculateRevenue(revenue, expenses, taxRate)
 
 	// print ebt
 	fmt.Println("Earnings before tax is", ebt)
@@ -29,4 +24,11 @@ func main() {
 	fmt.Println("Earnings after tax is", eat)
 	// print ratio
 	fmt.Println("Ratio is", ratio)
+}
+
+func calculateRevenue(revenue, expenses, taxRate float64) (ebt float64, eat float64, ratio float64) {
+	ebt = revenue - expenses
+	eat = ebt * (1 - taxRate/100)
+	ratio = ebt / eat
+	return ebt, eat, ratio
 }
