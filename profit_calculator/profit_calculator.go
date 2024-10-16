@@ -1,34 +1,46 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+)
 
 func main() {
-	var revenue float64
-	var expenses float64
-	var taxRate float64
+	revenue := getUserInput("Revenue: ")
+	expenses := getUserInput("Expenses: ")
+	taxRate := getUserInput("Tax Rate: ")
 
-	fmt.Print("Enter revenue: ")
-	fmt.Scan(&revenue)
+	ebt, profit, ratio := calculateFinancials(revenue, expenses, taxRate)
 
-	fmt.Print("Enter expenses: ")
-	fmt.Scan(&expenses)
+	fmt.Printf("EBT: %.1f\n", ebt)
+	fmt.Printf("Profit: %.1f\n", profit)
+	fmt.Printf("Ratio: %.3f\n", ratio)
 
-	fmt.Print("Enter tax rate: ")
-	fmt.Scan(&taxRate)
-
-	ebt, eat, ratio := calculateRevenue(revenue, expenses, taxRate)
-
-	// print ebt
-	fmt.Println("Earnings before tax is", ebt)
-	// print eat
-	fmt.Println("Earnings after tax is", eat)
-	// print ratio
-	fmt.Println("Ratio is", ratio)
+	writeProfitToFile(ebt, profit, ratio)
 }
 
-func calculateRevenue(revenue, expenses, taxRate float64) (ebt float64, eat float64, ratio float64) {
-	ebt = revenue - expenses
-	eat = ebt * (1 - taxRate/100)
-	ratio = ebt / eat
-	return ebt, eat, ratio
+func calculateFinancials(revenue, expenses, taxRate float64) (float64, float64, float64) {
+	ebt := revenue - expenses
+	profit := ebt * (1 - taxRate/100)
+	ratio := ebt / profit
+	return ebt, profit, ratio
+}
+
+func getUserInput(infoText string) float64 {
+	for {
+		var userInput float64
+		fmt.Print(infoText)
+		fmt.Scan(&userInput)
+
+		if userInput <= 0 || userInput == 0 {
+			fmt.Println("Please enter a positive number")
+		} else {
+			return userInput
+		}
+	}
+}
+
+func writeProfitToFile(ebt, profit, ratio float64) {
+	profitText := fmt.Sprintf("EBT: %.1f\nProfit: %.1f\nRation: %.1f\n", ebt, profit, ratio)
+	os.WriteFile("profit.txt", []byte(profitText), 0644)
 }
