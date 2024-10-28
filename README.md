@@ -5,7 +5,7 @@ This repository contains various projects and examples created during my Golang 
 ## Contents
 
 - [Control Structure](./control-structures) - Examples of using control structures in Go.
-- [Goroutine](./goroutine-hands-on) - Demonstrations of concurrency using goroutines.
+- [Goroutine](./goroutines-hands-on) - Demonstrations of concurrency using goroutines.
 - [Price Calculator](./price-calculator) - A simple calculator for computing investment returns.
 - [REST API](./rest-api) - A basic CRUD API built with Go.
 
